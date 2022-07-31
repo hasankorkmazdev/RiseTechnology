@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseTechnology.Contact.API", "RiseTechnology.Contact.API\RiseTechnology.Contact.API.csproj", "{69F43F45-DA76-4AD4-8935-8E7CBAF7044D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseTechnology.Common", "RiseTechnology.Common\RiseTechnology.Common.csproj", "{023BEEA5-49DC-4E98-AFCE-88C198B75798}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69F43F45-DA76-4AD4-8935-8E7CBAF7044D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69F43F45-DA76-4AD4-8935-8E7CBAF7044D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69F43F45-DA76-4AD4-8935-8E7CBAF7044D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69F43F45-DA76-4AD4-8935-8E7CBAF7044D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{023BEEA5-49DC-4E98-AFCE-88C198B75798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{023BEEA5-49DC-4E98-AFCE-88C198B75798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{023BEEA5-49DC-4E98-AFCE-88C198B75798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{023BEEA5-49DC-4E98-AFCE-88C198B75798}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B965690-E2A4-4BE9-BDD4-D2363C918BED}
+	EndGlobalSection
+EndGlobal
