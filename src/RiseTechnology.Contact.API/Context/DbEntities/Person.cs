@@ -1,4 +1,5 @@
 ﻿using RiseTechnology.Common.DbEntity.Base;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RiseTechnology.Contact.API.Context.DbEntities
@@ -9,5 +10,6 @@ namespace RiseTechnology.Contact.API.Context.DbEntities
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Company { get; set; }
+        public virtual List<ContactInformation> ContactInformations { get; set; }
     }
 }

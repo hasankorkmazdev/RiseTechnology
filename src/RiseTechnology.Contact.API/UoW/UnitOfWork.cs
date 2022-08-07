@@ -28,6 +28,7 @@ namespace RiseTechnology.Contact.API.UoW
                 {
                     case Microsoft.EntityFrameworkCore.EntityState.Deleted:
                         entry.Entity.IsDeleted = true;
+                        entry.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                         break;
                     case Microsoft.EntityFrameworkCore.EntityState.Added:
                         entry.Entity.IsActive = true;

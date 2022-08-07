@@ -33,7 +33,7 @@ namespace RiseTechnology.Contact.API
         {
 
             services.AddControllers();
-            services.AddDbContext<ContactContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RiseContact")));
+            services.AddDbContext<ContactContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RiseContactSqlServer")));
 
             //Auto Register Servise Lifetime
             services.Scan(scan => scan
@@ -60,10 +60,11 @@ namespace RiseTechnology.Contact.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public  void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
+                 app.SeedContactContext();  //Uygulama geliþtirme aþamasýnda çaðýrýyoruz. 
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiseTechnology.Contact.API v1"));

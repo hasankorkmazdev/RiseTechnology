@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RiseTechnology.Contact.API
+namespace RiseTechnology.Report.API
 {
-    public static class Program
+    public class Program
     {
         public static void Main(string[] args)
         {

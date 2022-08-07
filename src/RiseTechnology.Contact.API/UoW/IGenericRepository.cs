@@ -10,6 +10,6 @@ namespace RiseTechnology.Contact.API.UoW
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
-        IQueryable GetQuery(TEntity entity);
+        IQueryable<TEntity> GetQuery();
     }
 }

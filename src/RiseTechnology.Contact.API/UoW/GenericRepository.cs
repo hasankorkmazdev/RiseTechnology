@@ -25,9 +25,10 @@ namespace RiseTechnology.Contact.API.UoW
             _context.Set<TEntity>().Update(entity);
         }
 
-        public IQueryable GetQuery(TEntity entity)
+       
+        public IQueryable<TEntity> GetQuery()
         {
-           return _context.Set<TEntity>().AsQueryable();
+            return _context.Set<TEntity>().AsQueryable();
 
         }
 
