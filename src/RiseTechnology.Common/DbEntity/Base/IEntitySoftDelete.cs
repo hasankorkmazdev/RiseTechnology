@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RiseTechnology.Common.DbEntity.Base
+﻿namespace RiseTechnology.Common.DbEntity.Base
 {
     public interface IEntitySoftDelete
     {

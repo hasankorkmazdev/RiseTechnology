@@ -1,6 +1,6 @@
-﻿namespace RiseTechnology.Contact.API.Models
+﻿namespace RiseTechnology.Common.Models.Request
 {
-    public class CreatePerson
+    public class CreatePersonRequestModel
     {
         public string Name { get; set; }
         public string LastName { get; set; }

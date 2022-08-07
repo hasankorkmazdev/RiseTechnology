@@ -5,13 +5,12 @@ using RiseTechnology.Contact.API.Context.DbEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RiseTechnology.Contact.API.Context
 {
     public static class ContextSeedExtension
     {
-        public static  IApplicationBuilder SeedContactContext(this IApplicationBuilder app)
+        public static IApplicationBuilder SeedContactContext(this IApplicationBuilder app)
         {
 
             var scope = app.ApplicationServices.CreateScope();
@@ -142,7 +141,7 @@ namespace RiseTechnology.Contact.API.Context
 
             foreach (var item in personList)
             {
-              var anyItem=  context.Persons.Any(x => x.UUID == item.UUID && !x.IsDeleted);
+                var anyItem = context.Persons.IgnoreQueryFilters().Any(x => x.UUID == item.UUID);
                 if (!anyItem)
                 {
                     context.Persons.Add(item);

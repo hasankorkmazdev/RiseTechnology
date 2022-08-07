@@ -1,12 +1,12 @@
-﻿using RiseTechnology.Contact.API.Models.Base;
-using System;
+﻿using RiseTechnology.Common.Models.Base;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using static RiseTechnology.Common.Enums;
 
-namespace RiseTechnology.Contact.API.Models.Response
+namespace RiseTechnology.Common.Models.Response
 {
-    public class PersonContactInformationResponseModel:BaseModel
+
+    public class PersonContactInformationResponseModel : BaseModel
     {
         [JsonPropertyOrder(2)]
         public string Name { get; set; }
@@ -20,11 +20,12 @@ namespace RiseTechnology.Contact.API.Models.Response
         public List<ContactInfromationResponseModel> ContactInformations { get; set; }
 
     }
-    public class ContactInfromationResponseModel:BaseModel
+    public class ContactInfromationResponseModel : BaseModel
     {
         [JsonPropertyOrder(2)]
         public ContactType ContactType { get; set; }
         [JsonPropertyOrder(3)]
         public string ContactContent { get; set; }
     }
+
 }

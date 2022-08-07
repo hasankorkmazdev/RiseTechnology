@@ -1,22 +1,16 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RiseTechnology.Common.DependencyInjectionsLifeCycles;
+using RiseTechnology.Common.GenericRepository;
 using RiseTechnology.Contact.API.Context;
 using RiseTechnology.Contact.API.MapProfile;
 using RiseTechnology.Contact.API.UoW;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RiseTechnology.Contact.API
 {
@@ -34,10 +28,12 @@ namespace RiseTechnology.Contact.API
 
             services.AddControllers();
             services.AddDbContext<ContactContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RiseContactSqlServer")));
+            //UoW Generic Yapýlandýrýldýðý için DBContext Kullanýr Eðer DBContexti çaðýrýrsam Ondan Türetilip Kullanýlaný Ver
+            services.AddScoped<DbContext, ContactContext>();
 
             //Auto Register Servise Lifetime
             services.Scan(scan => scan
-                .FromAssemblyOf<Startup>()
+                .FromAssembliesOf(typeof(Startup), typeof(UnitOfWork)) // Bu Assemblyler içinde ITransientLifetime Transiet,IScopedLifetime Scoped, ISingletonLifetime Singleton olarak otomatik Implemente Et
                 .AddClasses(classes => classes.AssignableTo<ITransientLifetime>())
                 .AsImplementedInterfaces()
                 .WithTransientLifetime()
@@ -60,11 +56,11 @@ namespace RiseTechnology.Contact.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public  void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                 app.SeedContactContext();  //Uygulama geliþtirme aþamasýnda çaðýrýyoruz. 
+                app.SeedContactContext();  //Uygulama geliþtirme aþamasýnda çaðýrýyoruz. 
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiseTechnology.Contact.API v1"));

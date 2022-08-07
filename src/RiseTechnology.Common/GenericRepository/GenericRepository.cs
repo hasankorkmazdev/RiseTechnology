@@ -1,13 +1,14 @@
-﻿using RiseTechnology.Common.DbEntity.Base;
-using RiseTechnology.Contact.API.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using RiseTechnology.Common.DbEntity.Base;
+using RiseTechnology.Common.GenericRepository;
 using System.Linq;
 
-namespace RiseTechnology.Contact.API.UoW
+namespace RiseTechnology.Common.GenericRepository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
     {
-        private readonly ContactContext _context;
-        public GenericRepository(ContactContext context)
+        private readonly DbContext _context;
+        public GenericRepository(DbContext context)
         {
             _context = context;
         }
@@ -25,7 +26,7 @@ namespace RiseTechnology.Contact.API.UoW
             _context.Set<TEntity>().Update(entity);
         }
 
-       
+
         public IQueryable<TEntity> GetQuery()
         {
             return _context.Set<TEntity>().AsQueryable();

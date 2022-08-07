@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiseTechnology.Contact.API"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiseTechnology.Common", "RiseTechnology.Common\RiseTechnology.Common.csproj", "{023BEEA5-49DC-4E98-AFCE-88C198B75798}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseTechnology.Report.API", "RiseTechnology.Report.API\RiseTechnology.Report.API.csproj", "{63321F68-D6D8-4C1F-8F09-47C24EC5339B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiseTechnology.Report.API", "RiseTechnology.Report.API\RiseTechnology.Report.API.csproj", "{63321F68-D6D8-4C1F-8F09-47C24EC5339B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

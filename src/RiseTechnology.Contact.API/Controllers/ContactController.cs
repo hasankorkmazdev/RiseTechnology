@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RiseTechnology.Contact.API.Models;
+using RiseTechnology.Common.Models.Request;
 using RiseTechnology.Contact.API.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RiseTechnology.Contact.API.Controllers
@@ -36,9 +34,9 @@ namespace RiseTechnology.Contact.API.Controllers
 
             return Ok(data);
         }
-        
+
         [HttpPost("")]
-        public async Task<IActionResult> AddPerson(CreatePerson person)
+        public async Task<IActionResult> AddPerson(CreatePersonRequestModel person)
         {
             await _contactService.CreatePersonAsync(person);
             return Ok();

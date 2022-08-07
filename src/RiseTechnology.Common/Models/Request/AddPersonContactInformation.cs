@@ -1,7 +1,6 @@
-﻿using System;
-using static RiseTechnology.Common.Enums;
+﻿using static RiseTechnology.Common.Enums;
 
-namespace RiseTechnology.Contact.API.Models
+namespace RiseTechnology.Common.Models.Request
 {
     public class AddPersonContactInformation
     {

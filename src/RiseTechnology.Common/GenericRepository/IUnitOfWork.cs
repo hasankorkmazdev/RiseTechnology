@@ -1,7 +1,7 @@
 ﻿using RiseTechnology.Common.DbEntity.Base;
 using System.Threading.Tasks;
 
-namespace RiseTechnology.Contact.API.UoW
+namespace RiseTechnology.Common.GenericRepository
 {
     public interface IUnitOfWork
     {

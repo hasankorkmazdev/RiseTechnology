@@ -1,16 +1,17 @@
-﻿using RiseTechnology.Common.DbEntity.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using RiseTechnology.Common.DbEntity.Base;
 using RiseTechnology.Common.DependencyInjectionsLifeCycles;
-using RiseTechnology.Contact.API.Context;
+using RiseTechnology.Common.GenericRepository;
 using System;
 using System.Threading.Tasks;
 
-namespace RiseTechnology.Contact.API.UoW
+namespace RiseTechnology.Common.GenericRepository
 {
-    public class UnitOfWork:IUnitOfWork,IScopedLifetime
+    public class UnitOfWork : IUnitOfWork, IScopedLifetime
     {
-        private readonly ContactContext _context;
+        private readonly DbContext _context;
         private readonly IServiceProvider _serviceProvider;
-        public UnitOfWork(IServiceProvider serviceProvider, ContactContext context)
+        public UnitOfWork(IServiceProvider serviceProvider, DbContext context)
         {
             _context = context;
             _serviceProvider = serviceProvider;
@@ -22,7 +23,7 @@ namespace RiseTechnology.Contact.API.UoW
         }
         public async Task<int> SaveChangesAsync()
         {
-            foreach (var  entry in _context.ChangeTracker.Entries<EntityBaseAuditable>())
+            foreach (var entry in _context.ChangeTracker.Entries<EntityBaseAuditable>())
             {
                 switch (entry.State)
                 {
@@ -36,7 +37,7 @@ namespace RiseTechnology.Contact.API.UoW
                         break;
                 }
             }
-           return await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }

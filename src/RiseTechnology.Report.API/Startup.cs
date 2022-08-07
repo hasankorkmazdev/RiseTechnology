@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RiseTechnology.Common.Constant;
+using RiseTechnology.Common.DependencyInjectionsLifeCycles;
+using RiseTechnology.Common.GenericRepository;
+using RiseTechnology.Report.API.Context;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RiseTechnology.Report.API
 {
@@ -31,6 +30,27 @@ namespace RiseTechnology.Report.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiseTechnology.Report.API", Version = "v1" });
+            });
+            //UoW Generic Yapýlandýrýldýðý için DBContext Kullanýr Eðer DBContexti çaðýrýrsam Ondan Türetilip Kullanýlaný Ver
+            services.AddScoped<DbContext, ReportContext>();
+
+            //Auto Register Servise Lifetime
+            services.Scan(scan => scan
+                .FromAssembliesOf(typeof(Startup), typeof(UnitOfWork)) // Bu Assemblyler içinde ITransientLifetime Transiet,IScopedLifetime Scoped, ISingletonLifetime Singleton olarak otomatik Implemente Et
+                .AddClasses(classes => classes.AssignableTo<ITransientLifetime>())
+                .AsImplementedInterfaces()
+                .WithTransientLifetime()
+                .AddClasses(classes => classes.AssignableTo<IScopedLifetime>())
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+                .AddClasses(classes => classes.AssignableTo<ISingletonLifetime>())
+                .AsImplementedInterfaces()
+                .WithSingletonLifetime());
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddHttpClient(ReportApiConstants.ContactAPIClient, httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(Configuration.GetValue<string>("Services:ContactServiceEndPoint"));
+                httpClient.Timeout = TimeSpan.FromSeconds(30);
             });
         }
 

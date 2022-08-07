@@ -1,4 +1,5 @@
-﻿using RiseTechnology.Contact.API.Context.DbEntities;
+﻿using RiseTechnology.Common.GenericRepository;
+using RiseTechnology.Contact.API.Context.DbEntities;
 
 namespace RiseTechnology.Contact.API.UoW
 {

@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RiseTechnology.Common.DependencyInjectionsLifeCycles;
-using RiseTechnology.Contact.API.Context;
+using RiseTechnology.Common.GenericRepository;
+using RiseTechnology.Common.Models.Request;
+using RiseTechnology.Common.Models.Response;
 using RiseTechnology.Contact.API.Context.DbEntities;
-using RiseTechnology.Contact.API.Models;
 using RiseTechnology.Contact.API.UoW;
 using System;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Collections.Generic;
-using RiseTechnology.Contact.API.Models.Response;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RiseTechnology.Contact.API.Services
 {
@@ -29,23 +28,23 @@ namespace RiseTechnology.Contact.API.Services
         public async Task<PersonContactInformationResponseModel> GetPerson(Guid personUUID)
         {
 
-            if (personUUID == Guid.Empty || ! await _repositoryWrapper.PersonRepository.GetQuery().AnyAsync(x=> x.UUID== personUUID))
+            if (personUUID == Guid.Empty || !await _repositoryWrapper.PersonRepository.GetQuery().AnyAsync(x => x.UUID == personUUID))
             {
                 return null;
             }
-            var personEntity =await _repositoryWrapper.PersonRepository.GetQuery().Where(x => x.UUID == personUUID).Include(x=> x.ContactInformations).FirstOrDefaultAsync();
-            var mappedData=_mapper.Map<PersonContactInformationResponseModel>(personEntity);
+            var personEntity = await _repositoryWrapper.PersonRepository.GetQuery().Where(x => x.UUID == personUUID).Include(x => x.ContactInformations).FirstOrDefaultAsync();
+            var mappedData = _mapper.Map<PersonContactInformationResponseModel>(personEntity);
             return mappedData;
         }
 
-        public async Task<List<PersonResponseModel>> GetPersonList()
+        public async Task<List<PersonContactInformationResponseModel>> GetPersonList()
         {
             var personEntityList = await _repositoryWrapper.PersonRepository.GetQuery().ToListAsync();
-            var mappedList = _mapper.Map<List<PersonResponseModel>>(personEntityList);
+            var mappedList = _mapper.Map<List<PersonContactInformationResponseModel>>(personEntityList);
             return mappedList;
         }
 
-        public async Task<bool> CreatePersonAsync(CreatePerson model)
+        public async Task<bool> CreatePersonAsync(CreatePersonRequestModel model)
         {
             var mappedEntity = _mapper.Map<Person>(model);
             _repositoryWrapper.PersonRepository.Add(mappedEntity);
@@ -72,7 +71,7 @@ namespace RiseTechnology.Contact.API.Services
                 return false;
             }
             var mappedEntity = _mapper.Map<ContactInformation>(addPersonContactInformation);
-            mappedEntity.PersonUUID=personUUID;
+            mappedEntity.PersonUUID = personUUID;
             _repositoryWrapper.ContactInformationRepository.Add(mappedEntity);
             await _unitOfWork.SaveChangesAsync();
             return true;
@@ -90,6 +89,6 @@ namespace RiseTechnology.Contact.API.Services
             return true;
         }
 
-      
+
     }
 }

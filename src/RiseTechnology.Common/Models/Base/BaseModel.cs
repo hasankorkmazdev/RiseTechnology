@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace RiseTechnology.Contact.API.Models.Base
+namespace RiseTechnology.Common.Models.Base
 {
     public class BaseModel
     {

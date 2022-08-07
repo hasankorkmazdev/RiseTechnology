@@ -1,8 +1,7 @@
 ﻿using RiseTechnology.Common.DependencyInjectionsLifeCycles;
 using RiseTechnology.Common.GenericRepository;
-using RiseTechnology.Contact.API.Context.DbEntities;
 
-namespace RiseTechnology.Contact.API.UoW
+namespace RiseTechnology.Report.API.UoW
 {
     public class RepositoryWrapper : IRepositoryWrapper, IScopedLifetime
     {
@@ -11,7 +10,6 @@ namespace RiseTechnology.Contact.API.UoW
         {
             _unitOfWork = unitOfWork;
         }
-        public IGenericRepository<Person> PersonRepository => _unitOfWork.GetRepository<Person>();
-        public IGenericRepository<ContactInformation> ContactInformationRepository => _unitOfWork.GetRepository<ContactInformation>();
+        public IGenericRepository<Context.DbEntities.Report> ReportRepository => _unitOfWork.GetRepository<Context.DbEntities.Report>();
     }
 }
