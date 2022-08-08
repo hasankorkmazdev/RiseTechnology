@@ -27,7 +27,7 @@ namespace RiseTechnology.Contact.API
         {
 
             services.AddControllers();
-            services.AddDbContext<ContactContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RiseContactSqlServer")));
+            services.AddDbContext<ContactContext>(option => option.UseNpgsql(Configuration.GetConnectionString("RiseContact")));
             //UoW Generic Yapýlandýrýldýðý için DBContext Kullanýr Eðer DBContexti çaðýrýrsam Ondan Türetilip Kullanýlaný Ver
             services.AddScoped<DbContext, ContactContext>();
 

@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RiseTechnology.Contact.API.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialPostgre : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,12 +15,12 @@ namespace RiseTechnology.Contact.API.Migrations
                 schema: "RiseContact",
                 columns: table => new
                 {
-                    UUID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    UUID = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    Company = table.Column<string>(type: "text", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,12 +32,12 @@ namespace RiseTechnology.Contact.API.Migrations
                 schema: "RiseContact",
                 columns: table => new
                 {
-                    UUID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ContactType = table.Column<int>(type: "int", nullable: false),
-                    ContactContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PersonUUID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    UUID = table.Column<Guid>(type: "uuid", nullable: false),
+                    ContactType = table.Column<int>(type: "integer", nullable: false),
+                    ContactContent = table.Column<string>(type: "text", nullable: true),
+                    PersonUUID = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,7 +48,7 @@ namespace RiseTechnology.Contact.API.Migrations
                         principalSchema: "RiseContact",
                         principalTable: "Persons",
                         principalColumn: "UUID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

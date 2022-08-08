@@ -33,7 +33,7 @@ namespace RiseTechnology.Report.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiseTechnology.Report.API", Version = "v1" });
             });
-            services.AddDbContext<ReportContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RiseReportSqlServer")));
+            services.AddDbContext<ReportContext>(option => option.UseNpgsql(Configuration.GetConnectionString("RiseReportPostgreSql")));
             //UoW Generic Yapýlandýrýldýðý için DBContext Kullanýr Eðer DBContexti çaðýrýrsam Ondan Türetilip Kullanýlaný Ver
             services.AddScoped<DbContext, ReportContext>();
             //Auto Register Servise Lifetime

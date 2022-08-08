@@ -14,10 +14,10 @@ namespace RiseTechnology.Contact.API.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.AddSoftDelete();
             base.OnModelCreating(modelBuilder);
         }
+
         public DbSet<ContactInformation> ContactInformations { get; set; }
         public DbSet<Person> Persons { get; set; }
 
