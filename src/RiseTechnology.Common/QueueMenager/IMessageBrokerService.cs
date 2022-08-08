@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace RiseTechnology.Common.QueueMenager
 {
-     public interface IMessageBrokerService
+    public interface IMessageBrokerService
     {
-        public void Publish(string queueName, object data);
-        public void Consume(string queueName, Action<object, BasicDeliverEventArgs> callback);
+        public void Publish(string queueName, Guid reportUuid);
+        public void Consume(string queueName, Action<object> callback);
     }
 }

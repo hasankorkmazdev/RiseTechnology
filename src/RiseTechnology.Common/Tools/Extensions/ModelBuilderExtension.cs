@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace RiseTechnology.Common.Tools.Statics
+namespace RiseTechnology.Common.Tools.Extensions
 {
     public static class ModelBuilderExtension
     {

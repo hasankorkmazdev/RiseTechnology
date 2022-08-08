@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using RiseTechnology.Common.Constant;
 using RiseTechnology.Common.DependencyInjectionsLifeCycles;
 using RiseTechnology.Common.GenericRepository;
 using RiseTechnology.Report.API.Context;
+using RiseTechnology.Report.API.MapProfile;
 using System;
 
 namespace RiseTechnology.Report.API
@@ -31,9 +33,9 @@ namespace RiseTechnology.Report.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiseTechnology.Report.API", Version = "v1" });
             });
+            services.AddDbContext<ReportContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RiseReportSqlServer")));
             //UoW Generic Yapýlandýrýldýðý için DBContext Kullanýr Eðer DBContexti çaðýrýrsam Ondan Türetilip Kullanýlaný Ver
             services.AddScoped<DbContext, ReportContext>();
-
             //Auto Register Servise Lifetime
             services.Scan(scan => scan
                 .FromAssembliesOf(typeof(Startup), typeof(UnitOfWork)) // Bu Assemblyler içinde ITransientLifetime Transiet,IScopedLifetime Scoped, ISingletonLifetime Singleton olarak otomatik Implemente Et
@@ -46,8 +48,12 @@ namespace RiseTechnology.Report.API
                 .AddClasses(classes => classes.AssignableTo<ISingletonLifetime>())
                 .AsImplementedInterfaces()
                 .WithSingletonLifetime());
+            services.AddSingleton(new MapperConfiguration(x =>
+            {
+                x.AddProfile(new ReportApiMapperProfile());
+            }).CreateMapper());
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddHttpClient(ReportApiConstants.ContactAPIClient, httpClient =>
+            services.AddHttpClient(EnpointNames.ContactAPIClient, httpClient =>
             {
                 httpClient.BaseAddress = new Uri(Configuration.GetValue<string>("Services:ContactServiceEndPoint"));
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
@@ -55,10 +61,12 @@ namespace RiseTechnology.Report.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportContext reportContext)
         {
             if (env.IsDevelopment())
             {
+
+                reportContext.Database.Migrate();
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiseTechnology.Report.API v1"));

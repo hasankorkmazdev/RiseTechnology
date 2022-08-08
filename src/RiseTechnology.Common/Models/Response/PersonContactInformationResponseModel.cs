@@ -8,23 +8,23 @@ namespace RiseTechnology.Common.Models.Response
 
     public class PersonContactInformationResponseModel : BaseModel
     {
-        [JsonPropertyOrder(2)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonPropertyOrder(3)]
+        [JsonPropertyName("lastName")]
         public string LastName { get; set; }
-        [JsonPropertyOrder(4)]
+        [JsonPropertyName("company")]
         public string Company { get; set; }
-        [JsonPropertyOrder(5)]
+        [JsonPropertyName("isActive")]
         public bool IsActive { get; set; }
-        [JsonPropertyOrder(6)]
+        [JsonPropertyName("contactInformations")]
         public List<ContactInfromationResponseModel> ContactInformations { get; set; }
 
     }
     public class ContactInfromationResponseModel : BaseModel
     {
-        [JsonPropertyOrder(2)]
+        [JsonPropertyName("contactType")]
         public ContactType ContactType { get; set; }
-        [JsonPropertyOrder(3)]
+        [JsonPropertyName("contactContent")]
         public string ContactContent { get; set; }
     }
 

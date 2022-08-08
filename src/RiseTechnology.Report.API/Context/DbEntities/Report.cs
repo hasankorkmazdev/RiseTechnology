@@ -10,6 +10,7 @@ namespace RiseTechnology.Report.API.Context.DbEntities
     {
         public DateTime RequestDate { get; set; }
         public ReportStatus Status { get; set; }
+        public string XLSXPath { get; set; }
     }
 
 }

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RiseTechnology.Common;
+using RiseTechnology.Common.Models.Request;
 using RiseTechnology.Report.API.Services;
+using System;
 using System.Threading.Tasks;
 
 namespace RiseTechnology.Report.API.Controllers
@@ -21,7 +24,7 @@ namespace RiseTechnology.Report.API.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetReport()
         {
-          var data=  await reportService.GetReports();
+            var data = await reportService.GetReports();
 
             return Ok(data);
         }
@@ -31,6 +34,20 @@ namespace RiseTechnology.Report.API.Controllers
             await reportService.CreateReport();
             return Ok();
         }
+        [HttpPost("{reportuuid}/changeStatus/{status}")]
+        public async Task<IActionResult> ChangeStatus(Guid reportuuid, Enums.ReportStatus status)
+        {
+            await reportService.ChangeStatus(reportuuid, status);
+            return Ok();
+        }
+        [HttpPost("{reportuuid}/UpdateReportPath")]
+        public async Task<IActionResult> UpdateReportPath(Guid reportuuid, [FromBody] UpdateReportPathRequestModel model)
+        {
+           await reportService.UpdateReportPath(reportuuid, model);
+            return Ok();
+        }
+
+
 
 
     }

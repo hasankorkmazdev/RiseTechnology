@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using RiseTechnology.Common.GenericRepository;
-using RiseTechnology.Common.Tools.Statics;
+using RiseTechnology.Common.Tools.Extensions;
 using RiseTechnology.Contact.API.Context.DbEntities;
 
 namespace RiseTechnology.Contact.API.Context

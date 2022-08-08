@@ -5,7 +5,7 @@ namespace RiseTechnology.Common.Models.Base
 {
     public class BaseModel
     {
-        [JsonPropertyOrder(1)]
+        [JsonPropertyName("uuid")]
         public Guid UUID { get; set; }
     }
 }

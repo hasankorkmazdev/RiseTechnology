@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using RiseTechnology.Common.Tools.Statics;
+using RiseTechnology.Common.Tools.Extensions;
 
 namespace RiseTechnology.Report.API.Context
 {

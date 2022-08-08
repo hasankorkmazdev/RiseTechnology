@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using RiseTechnology.Common.DependencyInjectionsLifeCycles;
 using RiseTechnology.Common.GenericRepository;
+using RiseTechnology.Common.Models.Base;
 using RiseTechnology.Common.Models.Request;
 using RiseTechnology.Common.Models.Response;
+using RiseTechnology.Common.Tools.Exceptions;
 using RiseTechnology.Contact.API.Context.DbEntities;
 using RiseTechnology.Contact.API.UoW;
 using System;
@@ -25,68 +27,65 @@ namespace RiseTechnology.Contact.API.Services
             _mapper = mapper;
         }
 
-        public async Task<PersonContactInformationResponseModel> GetPerson(Guid personUUID)
+        public async Task<ServiceResultModel> GetPerson(Guid personUUID)
         {
+            if (!await _repositoryWrapper.PersonRepository.GetQuery().AnyAsync(x => x.UUID == personUUID))
+                throw new BadRequestException($"personUuid:{personUUID} not found please check personUuid");
 
-            if (personUUID == Guid.Empty || !await _repositoryWrapper.PersonRepository.GetQuery().AnyAsync(x => x.UUID == personUUID))
-            {
-                return null;
-            }
             var personEntity = await _repositoryWrapper.PersonRepository.GetQuery().Where(x => x.UUID == personUUID).Include(x => x.ContactInformations).FirstOrDefaultAsync();
             var mappedData = _mapper.Map<PersonContactInformationResponseModel>(personEntity);
-            return mappedData;
+            return new ServiceResultModel(mappedData);
         }
 
-        public async Task<List<PersonContactInformationResponseModel>> GetPersonList()
+        public async Task<ServiceResultModel> GetPersonList()
         {
-            var personEntityList = await _repositoryWrapper.PersonRepository.GetQuery().ToListAsync();
+            var personEntityList = await _repositoryWrapper.PersonRepository.GetQuery().Include(x=> x.ContactInformations).ToListAsync();
             var mappedList = _mapper.Map<List<PersonContactInformationResponseModel>>(personEntityList);
-            return mappedList;
+            return new ServiceResultModel(mappedList);
+
         }
 
-        public async Task<bool> CreatePersonAsync(CreatePersonRequestModel model)
+        public async Task<ServiceResultModel> CreatePersonAsync(CreatePersonRequestModel model)
         {
             var mappedEntity = _mapper.Map<Person>(model);
             _repositoryWrapper.PersonRepository.Add(mappedEntity);
             await _unitOfWork.SaveChangesAsync();
-            return true;
+            return new ServiceResultModel(mappedEntity);
         }
 
-        public async Task<bool> RemovePersonAsync(Guid personUUID)
+        public async Task<ServiceResultModel> RemovePersonAsync(Guid personUUID)
         {
-            var person = _repositoryWrapper.PersonRepository.GetQuery().Where(x => x.UUID == personUUID).FirstOrDefault();
-            if (person == null)
-            {
-                return false;
-            }
+            if (!await _repositoryWrapper.PersonRepository.GetQuery().AnyAsync(x => x.UUID == personUUID))
+                throw new BadRequestException($"personUuid:{personUUID} not found please check personUuid");
+
+            var person = await _repositoryWrapper.PersonRepository.GetQuery().Where(x => x.UUID == personUUID).FirstOrDefaultAsync();
             _repositoryWrapper.PersonRepository.Delete(person);
-            await _unitOfWork.SaveChangesAsync();
-            return true;
+            await _unitOfWork.SaveChangesAsync(); 
+            return new ServiceResultModel($"personUuid:{personUUID}");
+
         }
 
-        public async Task<bool> AddPersonContactInformation(Guid personUUID, AddPersonContactInformation addPersonContactInformation)
+        public async Task<ServiceResultModel> AddPersonContactInformation(Guid personUUID, AddPersonContactInformation addPersonContactInformation)
         {
-            if (personUUID == Guid.Empty || !_repositoryWrapper.PersonRepository.GetQuery().Any(x => x.UUID == personUUID))
-            {
-                return false;
-            }
+            if (!await _repositoryWrapper.PersonRepository.GetQuery().AnyAsync(x => x.UUID == personUUID))
+                throw new BadRequestException($"personUuid:{personUUID} not found please check personUuid");
+
             var mappedEntity = _mapper.Map<ContactInformation>(addPersonContactInformation);
             mappedEntity.PersonUUID = personUUID;
             _repositoryWrapper.ContactInformationRepository.Add(mappedEntity);
             await _unitOfWork.SaveChangesAsync();
-            return true;
+            return new ServiceResultModel(mappedEntity);
         }
 
-        public async Task<bool> RemoveContactInformation(Guid personUUID, Guid contactInformationUuid)
+        public async Task<ServiceResultModel> RemoveContactInformation(Guid personUUID, Guid contactInformationUuid)
         {
-            if (personUUID == Guid.Empty || contactInformationUuid == Guid.Empty || !(await _repositoryWrapper.PersonRepository.GetQuery().AnyAsync(x => x.UUID == personUUID && x.ContactInformations.Any(y => y.UUID == contactInformationUuid))))
-            {
-                return false;
-            }
+          
+            if (!(await _repositoryWrapper.PersonRepository.GetQuery().AnyAsync(x => x.UUID == personUUID && x.ContactInformations.Any(y => y.UUID == contactInformationUuid))))
+                throw new BadRequestException($"personUuid:{personUUID} or contactInformationUuid:${contactInformationUuid} not found please check personUuid and contactInformationUuid");
 
             _repositoryWrapper.ContactInformationRepository.Delete(_repositoryWrapper.ContactInformationRepository.GetQuery().Where(x => x.PersonUUID == personUUID && x.UUID == contactInformationUuid).FirstOrDefault());
             await _unitOfWork.SaveChangesAsync();
-            return true;
+            return new ServiceResultModel($"personUuid:{personUUID} contactInformationUuid:${contactInformationUuid}");
         }
 
 
