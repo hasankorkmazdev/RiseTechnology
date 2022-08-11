@@ -1,0 +1,73 @@
+version: '3.4'
+
+services:
+  rabbitmq: # login guest:guest
+    image: rabbitmq:3-management
+    hostname: "rabbitmq"
+    labels:
+      NAME: "rabbitmq"
+    ports:
+        - 5672:5672
+        - 15672:15672
+    networks:
+     - my-network
+  postgreserver:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_USER: "postgres"
+    ports:
+    - 5432:5432
+    networks:
+     - my-network
+  contactapi:
+    image: ${DOCKER_REGISTRY-}contactapi
+    build:
+      context: .
+      dockerfile: RiseTechnology.Contact.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:7200;http://+:7201
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=lolo1234lolo
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - 7200:7200
+      - 7201:7201
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    depends_on:
+      - postgreserver
+      - rabbitmq
+    links:
+     - postgreserver
+     - rabbitmq
+    networks:
+     - my-network
+  reportapi:
+    image: ${DOCKER_REGISTRY-}reportapi
+    build:
+      context: .
+      dockerfile: RiseTechnology.Report.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8200;http://+:8201
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=lolo1234lolo
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - 8200:8200
+      - 8201:8201
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    depends_on:
+      - postgreserver
+      - rabbitmq
+    links:
+     - postgreserver
+     - rabbitmq
+    networks:
+     - my-network
+
+networks: 
+ my-network:
+  external: false

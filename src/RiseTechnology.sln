@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiseTechnology.Common", "Ri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiseTechnology.Report.API", "RiseTechnology.Report.API\RiseTechnology.Report.API.csproj", "{63321F68-D6D8-4C1F-8F09-47C24EC5339B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseTechnology.Report.Consumer", "RiseTechnology.Report.Consumer\RiseTechnology.Report.Consumer.csproj", "{B092FAA7-86D0-4AF7-A2D1-E15A7875A602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiseTechnology.Report.Consumer", "RiseTechnology.Report.Consumer\RiseTechnology.Report.Consumer.csproj", "{B092FAA7-86D0-4AF7-A2D1-E15A7875A602}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC683FEA-3FAE-42A4-843F-A3D0E800F057}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

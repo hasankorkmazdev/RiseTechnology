@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+  rabbitmq: # login guest:guest
+    image: rabbitmq:3-management
+    hostname: "rabbitmq"
+    labels:
+      NAME: "rabbitmq"
+    ports:
+        - 5672:5672
+        - 15672:15672
+    networks:
+     - my-network
+  postgreserver:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_USER: "postgres"
+    ports:
+    - 5432:5432
+    networks:
+     - my-network
+  contactapi:
+    image: ${DOCKER_REGISTRY-}contactapi
+    build:
+      context: .
+      dockerfile: RiseTechnology.Contact.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:7500;https://+:7501
+    ports:
+      - 7500:7500
+      - 7501:7501
+    depends_on:
+      - postgreserver
+      - rabbitmq
+    links:
+     - postgreserver
+     - rabbitmq
+    networks:
+     - my-network
+
+networks: 
+ my-network:
+  external: true
